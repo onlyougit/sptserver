@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sptwin.sptserver.base.mapper.CustomerCustomMapper">
+  <resultMap id="BaseResultMap" type="com.sptwin.sptserver.entity.Customer">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="customer_phone" jdbcType="VARCHAR" property="customerPhone" />
+    <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+    <result column="customer_password" jdbcType="VARCHAR" property="customerPassword" />
+    <result column="customer_real_name" jdbcType="VARCHAR" property="customerRealName" />
+    <result column="customer_card_id" jdbcType="VARCHAR" property="customerCardId" />
+    <result column="regist_time" jdbcType="TIMESTAMP" property="registTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="safe" jdbcType="VARCHAR" property="safe" />
+    <result column="editor" jdbcType="INTEGER" property="editor" />
+    <result column="edit_time" jdbcType="TIMESTAMP" property="editTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, customer_phone, customer_name, customer_password, customer_real_name, customer_card_id, 
+    regist_time, status, safe, editor, edit_time
+  </sql>
+  <select id="findByCustomerPhoneAndStatus" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_customer
+    where customer_phone = #{customerPhone} and status= #{code}
+  </select>
+  <select id="findByCustomerPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_customer
+    where customer_phone = #{customerPhone}
+  </select>
+  <select id="queryCustomer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_customer
+    ORDER BY id desc
+  </select>
+  <insert id="insertSelective" parameterType="com.sptwin.sptserver.entity.Customer">
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+      SELECT LAST_INSERT_ID() AS id
+    </selectKey>
+    insert into t_customer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="customerPhone != null">
+        customer_phone,
+      </if>
+      <if test="customerName != null">
+        customer_name,
+      </if>
+      <if test="customerPassword != null">
+        customer_password,
+      </if>
+      <if test="customerRealName != null">
+        customer_real_name,
+      </if>
+      <if test="customerCardId != null">
+        customer_card_id,
+      </if>
+      <if test="registTime != null">
+        regist_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="safe != null">
+        safe,
+      </if>
+      <if test="editor != null">
+        editor,
+      </if>
+      <if test="editTime != null">
+        edit_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="customerPhone != null">
+        #{customerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null">
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPassword != null">
+        #{customerPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="customerRealName != null">
+        #{customerRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerCardId != null">
+        #{customerCardId,jdbcType=VARCHAR},
+      </if>
+      <if test="registTime != null">
+        #{registTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="safe != null">
+        #{safe,jdbcType=VARCHAR},
+      </if>
+      <if test="editor != null">
+        #{editor,jdbcType=INTEGER},
+      </if>
+      <if test="editTime != null">
+        #{editTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

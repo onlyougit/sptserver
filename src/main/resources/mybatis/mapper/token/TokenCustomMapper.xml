@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sptwin.sptserver.base.mapper.TokenCustomMapper">
+  <resultMap id="BaseResultMap" type="com.sptwin.sptserver.entity.Token">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="customer_id" jdbcType="INTEGER" property="customerId" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
+    <result column="expires_time" jdbcType="VARCHAR" property="expiresTime" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="client" jdbcType="VARCHAR" property="client" />
+  </resultMap>
+  <select id="findByToken" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    id, customer_id, token, expires_time, create_time, ip, client
+    from t_token
+    where token = #{value}
+  </select>
+</mapper>

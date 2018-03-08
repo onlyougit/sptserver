@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sptwin.sptserver.base.mapper.TokenMapper">
+  <resultMap id="BaseResultMap" type="com.sptwin.sptserver.entity.Token">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="customer_id" jdbcType="INTEGER" property="customerId" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
+    <result column="expires_time" jdbcType="VARCHAR" property="expiresTime" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="client" jdbcType="VARCHAR" property="client" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, customer_id, token, expires_time, create_time, ip, client
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_token
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_token
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sptwin.sptserver.entity.Token">
+    insert into t_token (id, customer_id, token, 
+      expires_time, create_time, ip, 
+      client)
+    values (#{id,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, #{token,jdbcType=VARCHAR}, 
+      #{expiresTime,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
+      #{client,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sptwin.sptserver.entity.Token">
+    insert into t_token
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="customerId != null">
+        customer_id,
+      </if>
+      <if test="token != null">
+        token,
+      </if>
+      <if test="expiresTime != null">
+        expires_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="client != null">
+        client,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="token != null">
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="expiresTime != null">
+        #{expiresTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="client != null">
+        #{client,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sptwin.sptserver.entity.Token">
+    update t_token
+    <set>
+      <if test="customerId != null">
+        customer_id = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="token != null">
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="expiresTime != null">
+        expires_time = #{expiresTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="client != null">
+        client = #{client,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sptwin.sptserver.entity.Token">
+    update t_token
+    set customer_id = #{customerId,jdbcType=INTEGER},
+      token = #{token,jdbcType=VARCHAR},
+      expires_time = #{expiresTime,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      client = #{client,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

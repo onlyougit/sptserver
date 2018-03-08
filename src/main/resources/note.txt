@@ -1,0 +1,59 @@
+1、Swagger相关知识：
+@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )//这里是针对每个参数的描述
+@ApiOperation：用在方法上，说明方法的作用
+@Api：用在类上，说明该类的作用
+@ApiImplicitParams：用在方法上包含一组参数说明<----------->@ApiImplicitParam：用在@ApiImplicitParams注解中，指定一个请求参数的各个方面
+@ApiResponses：用于表示一组响应<----------->@ApiResponse：用在@ApiResponses中，一般用于表达一个错误的响应信息
+
+@ApiImplicitParam中的paramType值：
+path：以地址的形式提交数据
+query：直接跟参数完成自动映射赋值
+body：以流的形式提交 仅支持POST
+header：参数在request headers 里边提交
+form：以form表单的形式提交 仅支持POST
+2、content-type互联网媒体类型：
+常见的媒体格式类型如下：
+text/html ： HTML格式
+text/plain ：纯文本格式
+text/xml ：  XML格式
+image/gif ：gif图片格式
+image/jpeg ：jpg图片格式
+image/png：png图片格式
+
+以application开头的媒体格式类型：
+application/xhtml+xml ：XHTML格式
+application/xml     ： XML数据格式
+application/atom+xml  ：Atom XML聚合格式
+application/json    ： JSON数据格式
+application/pdf       ：pdf格式
+application/msword  ： Word文档格式
+application/octet-stream ： 二进制流数据（如常见的文件下载）
+application/x-www-form-urlencoded ： <form encType=””>中默认的encType，form表单数据被编码为key/value格式发送到服务器（表单默认的提交数据的格式）
+multipart/form-data ： 需要在表单中进行文件上传时，就需要使用该格式
+3、consumes/produces
+consumes：指定处理请求的提交内容类型（Content-Type），例如application/json, text/html;
+produces：指定返回的内容类型，仅当request请求头中的(Accept)类型中包含该指定类型才返回
+例子：
+@RequestMapping(value = "/users", method = RequestMethod.POST, consumes="application/json", produces="application/json")
+解释：方法仅处理request Content-Type为“application/json”类型的请求.
+produces标识==>处理request请求中Accept头中包含了"application/json"的请求，
+同时暗示了返回的内容类型为application/json;
+4、启动SpringBoot项目，访问 http://localhost:8099/swagger-ui.html
+5、banner生成器：http://patorjk.com/software/taag/
+6、activeMQ应用场景：
+|-异步处理
+用户注册后，发注册邮件和注册短信。
+|-应用解耦
+用户下单后，订单系统需要通知库存系统。传统的做法是，订单系统调用库存系统的接口。
+订单系统：用户下单后，订单系统完成持久化处理，将消息写入消息队列，返回用户订单下单成功。
+库存系统：订阅下单的消息，采用拉/推的方式，获取下单信息，库存系统根据下单信息，进行库存操作。
+假如：在下单时库存系统不能正常使用。也不影响正常下单，因为下单后，订单系统写入消息队列就不再关心其他的后续操作了。实现订单系统与库存系统的应用解耦。
+|-流量削锋
+一般在秒杀或团抢活动中使用广泛。秒杀活动，一般会因为流量过大，导致流量暴增，应用挂掉。
+用户的请求，服务器接收后，首先写入消息队列。假如消息队列长度超过最大数量，则直接抛弃用户请求或跳转到错误页面；
+秒杀业务根据消息队列中的请求信息，再做后续处理。
+|-日志处理
+日志处理是指将消息队列用在日志处理中，比如Kafka的应用，解决大量日志传输的问题。
+|-消息通讯
+点对点通讯：客户端A和客户端B使用同一队列，进行消息通讯。
+聊天室通讯：客户端A，客户端B，客户端N订阅同一主题，进行消息发布和接收。
