@@ -1,6 +1,7 @@
 package com.sptwin.sptserver;
 
 import com.sptwin.sptserver.activemq.Producer;
+import com.sptwin.sptserver.common.Constant;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTopic;
 import org.junit.Test;
@@ -10,8 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.jms.Destination;
-import javax.jms.Queue;
-import javax.jms.Topic;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -19,19 +18,17 @@ public class ActiveMQTest {
 
     @Autowired
     private Producer producer;
-    @Autowired
-    private Topic topic;
-    @Autowired
-    private Queue queue;
 
     /**
      * ActiveMQQueue：【生产者和消费者】
-     * 生产/消费模式下，消息发出后会存放在队列中，等待消费者消费
+     * 生产/消费模式下，消息发出后会存放在队列中，等待消费者消费；
      */
     @Test
     public void producerAndConsumer() {
+        //或 Queue queue = new ActiveMQQueue(Constant.QUEUE_NAME_TEST);
+        Destination destination = new ActiveMQQueue(Constant.QUEUE_NAME_TEST);
         for(int i=0; i<10; i++){
-            producer.sendMessage(queue, "myname is queue!!!"+i);
+            producer.sendMessage(destination, "myname is queue!!!"+i);
         }
     }
 
@@ -41,8 +38,10 @@ public class ActiveMQTest {
      */
     @Test
     public void PublisherAndSubscriber() {
+        //或 Topic topic = new ActiveMQTopic(Constant.TOPIC_NAME_TEST);
+        Destination destination = new ActiveMQTopic(Constant.TOPIC_NAME_TEST);
         for(int i=0; i<10; i++){
-            producer.sendMessage(topic, "myname is topic!!!"+i);
+            producer.sendMessage(destination, "myname is topic!!!"+i);
         }
     }
 }

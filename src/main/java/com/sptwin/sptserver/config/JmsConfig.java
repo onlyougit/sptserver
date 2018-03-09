@@ -14,18 +14,6 @@ import javax.jms.Topic;
 @Configuration
 public class JmsConfig {
 
-    public final static String TOPIC = "springboot.topic.test";
-    public final static String QUEUE = "springboot.queue.test";
-
-    @Bean
-    public Queue queue() {
-        return new ActiveMQQueue(QUEUE);
-    }
-    @Bean
-    public Topic topic() {
-        return new ActiveMQTopic(TOPIC);
-    }
-
     // topic模式的ListenerContainer
     @Bean
     public JmsListenerContainerFactory<?> jmsListenerContainerTopic(ConnectionFactory activeMQConnectionFactory) {

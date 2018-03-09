@@ -20,6 +20,8 @@ public class Constant {
 	//限制短信发送，每个号码最多次数
 	public static final int MAX_SEND_COUNT = 5;
 	
-	
-	public static final String PAY_URL = "https://wanshangxing.com/index.php?app=smartepay";
+	//ActiveMQ
+	public static final String QUEUE_NAME_TEST = "queue.name.test";
+	public static final String TOPIC_NAME_TEST = "topic.name.test";
+	public static final String QUEUE_NAME_EMAIL = "queue.name.email";
 }

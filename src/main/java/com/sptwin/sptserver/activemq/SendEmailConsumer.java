@@ -1,6 +1,7 @@
 package com.sptwin.sptserver.activemq;
 
 import com.alibaba.fastjson.JSON;
+import com.sptwin.sptserver.common.Constant;
 import com.sptwin.sptserver.model.Email;
 import com.sptwin.sptserver.utils.base.EmailUtil;
 import org.slf4j.Logger;
@@ -22,7 +23,7 @@ public class SendEmailConsumer {
     @Autowired
     private Email email;
 
-    @JmsListener(destination = "springboot.queue.test", containerFactory = "jmsListenerContainerQueue")
+    @JmsListener(destination = Constant.QUEUE_NAME_EMAIL, containerFactory = "jmsListenerContainerQueue")
     @SendTo("email.return.queue")
     public Integer receiveQueue(String json) {
         log.info("============发送Email");
