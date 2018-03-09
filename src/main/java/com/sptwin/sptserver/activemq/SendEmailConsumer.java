@@ -1,7 +1,6 @@
 package com.sptwin.sptserver.activemq;
 
 import com.alibaba.fastjson.JSON;
-import com.sptwin.sptserver.base.service.impl.LoginServiceImpl;
 import com.sptwin.sptserver.model.Email;
 import com.sptwin.sptserver.utils.base.EmailUtil;
 import org.slf4j.Logger;
