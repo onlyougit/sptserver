@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
