@@ -3,6 +3,7 @@ package com.sptwin.sptserver.base.service;
 import com.sptwin.sptserver.entity.Customer;
 import com.sptwin.sptserver.model.Pagination;
 
+import java.util.List;
 import java.util.Map;
 
 public interface CustomerService {
@@ -18,4 +19,6 @@ public interface CustomerService {
     void updateCustomer(Customer customer);
 
     void deleteCustomer(int i);
+
+    List findAllCustomer();
 }

@@ -50,17 +50,27 @@ public class DruidConfig {
 
     private String logSlowSql;
 
+    /**
+     * 配置监控界面
+     * @return
+     */
     @Bean
     public ServletRegistrationBean druidServlet() {
         ServletRegistrationBean reg = new ServletRegistrationBean();
         reg.setServlet(new StatViewServlet());
-        reg.addUrlMappings("/druid/*");
+        reg.addUrlMappings("/druid/*");//查看监控URL：http://localhost:8099/druid
+        //reg.addInitParameter("allow", "127.0.0.1");// IP白名单 (没有配置或者为空，则允许所有访问)
+        //reg.addInitParameter("deny", "");// IP黑名单 (存在共同时，deny优先于allow)
         reg.addInitParameter("loginUsername", username);
         reg.addInitParameter("loginPassword", password);
         reg.addInitParameter("logSlowSql", logSlowSql);
         return reg;
     }
 
+    /**
+     * 配置过滤器
+     * @return
+     */
     @Bean
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
@@ -71,6 +81,10 @@ public class DruidConfig {
         return filterRegistrationBean;
     }
 
+    /**
+     * 配置数据源
+     * @return
+     */
     @Bean
     public DataSource druidDataSource() {
         DruidDataSource datasource = new DruidDataSource();

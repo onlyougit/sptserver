@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -18,6 +19,11 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
+    @RequestMapping("/findAllCustomer")
+    @ResponseBody
+    public List findAllCustomer(){
+        return customerService.findAllCustomer();
+    }
     @RequestMapping("/queryCustomer")
     @ResponseBody
     public Map queryCustomer(Pagination grid){

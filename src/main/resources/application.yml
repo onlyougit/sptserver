@@ -2,12 +2,17 @@
 spring:
   profiles:
     active: dev
+  #下面相当于CharacterEncodingFilter
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
   # 下面为连接池的补充设置，应用到上面所有数据源中
   datasource:
     initialSize: 5
     minIdle: 5
     maxActive: 20
-    # 配置获取连接等待超时的时间
     maxWait: 60000
     # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
     timeBetweenEvictionRunsMillis: 60000
@@ -47,10 +52,6 @@ server:
 #spring.mvc.view.prefix=/WEB-INF/jsp/
 #spring.mvc.view.suffix=.jsp
 
-#公共配置与profiles选择无关
-mybatis:
-  typeAliasesPackage: com.sptwin.sptserver.entity
-  mapperLocations: classpath:mybatis/mapper/**/*.xml
 
 
 

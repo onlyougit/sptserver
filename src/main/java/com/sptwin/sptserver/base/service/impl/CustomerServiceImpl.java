@@ -73,4 +73,9 @@ public class CustomerServiceImpl implements CustomerService{
         System.out.println("delete.........");
         customerMapper.deleteByPrimaryKey(i);
     }
+
+    @Override
+    public List findAllCustomer() {
+        return customerCustomMapper.findAllCustomer();
+    }
 }
