@@ -21,9 +21,9 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 		String token = request.getParameter(Constant.PARAM_TOKEN);
 		if (token != null) {
 			TimeZone timeZone = LocaleContextHolder.getTimeZone();
-			Customer user = tokenService.getCustomerByToken(token, timeZone);
-			if (user != null) {
-				request.setAttribute(Constant.CURRENT_USER, user);
+			Customer customer = tokenService.getCustomerByToken(token, timeZone);
+			if (customer != null) {
+				request.setAttribute(Constant.CURRENT_USER, customer);
 			}
 		}
 		return super.preHandle(request, response, handler);

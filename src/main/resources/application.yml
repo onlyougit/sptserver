@@ -49,9 +49,9 @@ spring:
     timeout: 3000
     pool:
       max-active: 5000
-      max-wait: 1000
-      max-idle: 500
-      min-idle: 50
+      max-wait: 20000
+      max-idle: 50
+      max-total: 100
 
 #spring.mvc.view.prefix=/WEB-INF/jsp/
 #spring.mvc.view.suffix=.jsp

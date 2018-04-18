@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service("redisService")
-@CacheConfig(cacheNames = "customerCache")//这样@Cacheable的cacheNames默认都是customerCache
 public class RedisServiceImpl implements RedisService {
     //public final static String KEY_CUSTOMER = "key_customer";
     @Autowired
@@ -38,7 +37,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    @Cacheable(key="'key_customer'+#id",unless="#result==null")
+    @Cacheable(value="redisCacheManager",key="'key_customer'+#id",unless="#result==null")
     public Customer queryCustomerById(Integer id) {
         System.out.println("queryCustomerById...............");
         return customerMapper.selectByPrimaryKey(id);
@@ -57,7 +56,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    @CachePut(value="customerCache",key="'key_customer'+#id")
+    @CachePut(value="redisCacheManager",key="'key_customer'+#id")
     public Customer updateCustomer(Integer id) {
         System.out.println("updateCustomer...............");
         Customer customer = customerMapper.selectByPrimaryKey(id);
@@ -69,7 +68,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    @CacheEvict(key="'key_customer'+#id")
+    @CacheEvict(value = "redisCacheManager" ,key="'key_customer'+#id")
     public void deleteCustomer(Integer id) {
         System.out.println("deleteCustomer...............");
         customerMapper.deleteByPrimaryKey(id);
