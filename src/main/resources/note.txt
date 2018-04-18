@@ -57,3 +57,4 @@ produces标识==>处理request请求中Accept头中包含了"application/json"�
 |-消息通讯
 点对点通讯：客户端A和客户端B使用同一队列，进行消息通讯。
 聊天室通讯：客户端A，客户端B，客户端N订阅同一主题，进行消息发布和接收。
+GitHub登录：onlyougit,wwb0218wml
