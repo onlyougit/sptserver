@@ -1,0 +1,19 @@
+1、注解：
+|-@Aspect
+|-@Pointcut
+  |--designators:
+    |---***匹配方法：execution()
+    execution(modifier-pattern? ret-type-pattern declaring-type-pattenr? name-pattern(param-pattern) throws-pattern?)
+    @Posintcut("execution(public * com.sptwin.service..*Service.*(..)) throws ")
+    |---匹配注解：@annotation
+    |---匹配包或类型：@within()
+    |---匹配对象：this()、bean()、target()
+    |---匹配参数：@args()
+  |--*(匹配任意数量的字符) ..(匹配指定类及其子类) +(匹配任意数的子包或参数)
+  |--&& || !
+|-Advice
+  |--前置通知：@before
+  |--后置通知，方法执行完之后：@After(finally)
+  |--返回通知，成功执行之后：@AfterReturning(value="",returning="result")
+  |--异常通知，抛出异常之后：@AfterThrowing
+  |--环绕通知：@Around[public Object after(){ProceedingJoinPoint joinPoint}]3
