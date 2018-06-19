@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.core.*;
 import org.springframework.test.context.junit4.SpringRunner;
-import redis.clients.jedis.Pipeline;
 
 import java.math.BigDecimal;
 import java.util.*;

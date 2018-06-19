@@ -21,12 +21,11 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import redis.clients.jedis.JedisPoolConfig;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Configuration
+@EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -48,12 +47,6 @@ public class RedisConfig extends CachingConfigurerSupport {
 
     @Value("${spring.redis.pool.max-idle}")
     private int maxIdle;
-
-    @Value("${spring.redis.pool.max-wait}")
-    private int maxWait;
-
-    @Value("${spring.redis.pool.max-total}")
-    private int maxTotal;
 
     /**
      *  注解@Cache key生成规则
@@ -79,13 +72,14 @@ public class RedisConfig extends CachingConfigurerSupport {
      * @param redisTemplate
      * @return
      */
-    @Bean(name ="redisCacheManager")
+    @Bean
     public CacheManager cacheManager(RedisTemplate redisTemplate) {
         RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
-        cacheManager.setDefaultExpiration(1200); //设置key-value超时时间(秒)
-        List<String> cacheNames = new ArrayList<>();
-        cacheNames.add("redisCacheManager");
-        cacheManager.setCacheNames(cacheNames);
+        /*Map<String, Long> expires=new HashMap<String, Long>();
+        expires.put("user", 6000L);
+        expires.put("city", 600L);
+        cacheManager.setExpires(expires);*/
+        cacheManager.setDefaultExpiration(1200); //设置key-value超时时间
         return cacheManager;
     }
     /**
@@ -94,20 +88,17 @@ public class RedisConfig extends CachingConfigurerSupport {
      * @param factory
      * @return
      */
-    @Bean(name ="redisTemplate")
+    @Bean
     public RedisTemplate<?,?> redisTemplate(RedisConnectionFactory factory) {
+        RedisTemplate<?,?> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(factory);
         //key序列化方式;但是如果方法上有Long等非String类型的话，会报类型转换错误；
         RedisSerializer<String> redisSerializer = new StringRedisSerializer();//Long类型不可以会出现异常信息;
+        redisTemplate.setKeySerializer(redisSerializer);
+        redisTemplate.setHashKeySerializer(redisSerializer);
 
         //JdkSerializationRedisSerializer序列化方式;
         JdkSerializationRedisSerializer jdkRedisSerializer=new JdkSerializationRedisSerializer();
-
-        RedisTemplate<?,?> redisTemplate = new RedisTemplate<>();
-
-        redisTemplate.setConnectionFactory(factory);
-        redisTemplate.setDefaultSerializer(redisSerializer);
-        redisTemplate.setKeySerializer(redisSerializer);
-        redisTemplate.setHashKeySerializer(redisSerializer);
         redisTemplate.setValueSerializer(jdkRedisSerializer);
         redisTemplate.setHashValueSerializer(jdkRedisSerializer);
         redisTemplate.afterPropertiesSet();
@@ -120,15 +111,16 @@ public class RedisConfig extends CachingConfigurerSupport {
      */
     @Bean
     public JedisConnectionFactory redisConnectionFactory() {
-        JedisConnectionFactory factory = new JedisConnectionFactory(jedisPoolConfig());
+        JedisConnectionFactory factory = new JedisConnectionFactory();
         factory.setHostName(host);
         factory.setPort(port);
-        //factory.setPassword(password);
+        factory.setPassword(password);
         //存储的库
         factory.setDatabase(database);
         //设置连接超时时间
         factory.setTimeout(timeout);
         factory.setUsePool(true);
+        factory.setPoolConfig(jedisPoolConfig());
         return factory;
     }
 
@@ -141,8 +133,6 @@ public class RedisConfig extends CachingConfigurerSupport {
     public JedisPoolConfig jedisPoolConfig() {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxIdle(maxIdle);
-        jedisPoolConfig.setMaxTotal(maxTotal);
-        jedisPoolConfig.setMaxWaitMillis(maxWait);
         return jedisPoolConfig;
     }
     /**

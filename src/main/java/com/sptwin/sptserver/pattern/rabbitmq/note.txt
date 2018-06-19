@@ -1,0 +1,58 @@
+1、RabbitMQ是一个开源的AMQP实现，服务器端用Erlang语言编写。
+2、几个概念：
+|—虚拟主机：一个虚拟主机持有一组交换机、队列和绑定
+|—交换机：Exchange 用于转发消息，但是它不会做存储
+|—绑定：也就是交换机需要和队列相绑定，是多对多的关系
+|—路由键：消息到交换机的时候，交互机会转发到对应的队列中，那么究竟转发到哪个队列，就要根据该路由键
+|-持久化：可以保证RabbitMQ服务停止，数据不会丢失
+3、交换机(Exchange)
+|—Direct：direct 类型的行为是"先匹配, 再投送"，RabbitMQ默认的交换机模式
+|—Topic：按规则转发消息（最灵活）
+  |--路由键
+  |--路由模式
+  |--*表示一个词，#表示零个或多个词
+|—Headers：设置header attribute参数类型的交换机
+|—Fanout：转发消息到所有绑定队列
+4、回调
+TopicSender implements RabbitTemplate.ConfirmCallback
+
+rabbitTemplate.setConfirmCallback(this);
+CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
+System.out.println("Sender topic1: " + sendMsg);
+rabbitTemplate.convertAndSend("orderExchange","order.message",sendMsg,correlationData);
+@Override
+public void confirm(CorrelationData correlationData, boolean b, String s) {
+    if(b){
+        System.out.println("消息成功被消费");
+    }else{
+        System.out.println("消息消费失败："+s);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
